@@ -1,16 +1,31 @@
 import React, { Component } from 'react';
+import {
+  FaPause,
+  FaPlay,
+  FaSpotify,
+  FaBandcamp,
+  FaApple
+} from 'react-icons/fa';
 
-import { PlayerContainer, SongList, SongListItem } from './Player.style';
+import {
+  PlayerContainer,
+  SongList,
+  SongListItem,
+  ControlsContainer,
+  PlayButton,
+  ProvidersContainer,
+  ProviderStyle
+} from './Player.style';
 
 class Player extends Component {
   static defaultProps = {
-    songs: [],
+    songs: []
   };
 
   state = {
     playing: false,
     hasPlayed: false,
-    currentSong: 0,
+    currentSong: 0
   };
 
   constructor(props) {
@@ -33,7 +48,6 @@ class Player extends Component {
   };
 
   togglePlay = () => {
-
     const method = this.state.playing ? 'pause' : 'play';
     this.audio.current[method]();
   };
@@ -54,10 +68,12 @@ class Player extends Component {
     const { songs } = this.props;
     return (
       <PlayerContainer>
-        <div>
+        <ControlsContainer>
           <img src="/coyote.jpg" alt="A Coyote" />
-          <button onClick={this.togglePlay}>{playing ? '❚❚' : '►'}</button>
-        </div>
+          <PlayButton onClick={this.togglePlay}>
+            {(playing && <FaPause />) || <FaPlay />}
+          </PlayButton>
+        </ControlsContainer>
 
         <div>
           <SongList>
@@ -81,6 +97,35 @@ class Player extends Component {
               );
             })}
           </SongList>
+          <ProvidersContainer>
+            <a
+              className={ProviderStyle}
+              href="https://paulnewmanseyes.bandcamp.com/releases"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Hear the album on Bandcamp"
+            >
+              <FaBandcamp />
+            </a>
+            <a
+              className={ProviderStyle}
+              href="https://open.spotify.com/album/6LfR64fv8r4Uem36K4vtw7?si=oj7eSIMAT8O56N09nA2UNw"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Hear the album on Spotify"
+            >
+              <FaSpotify />
+            </a>
+            <a
+              className={ProviderStyle}
+              href="https://itunes.apple.com/dk/album/entitlement-ep/1424456482"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Hear the album on Apple Music"
+            >
+              <FaApple />
+            </a>
+          </ProvidersContainer>
         </div>
 
         <audio

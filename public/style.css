@@ -5,8 +5,8 @@ html {
   font-size: 20px;
 }
 
-* {
-  outline-color: #1a535c;
+img {
+  max-width: 100%;
 }
 
 body {
@@ -44,6 +44,17 @@ body {
 }
 
 @media only screen and (max-width: 900px) {
+  html {
+    font-size: 14px;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  body {
+    padding: 1rem;
+  }
 }
 
 @media only screen and (max-width: 450px) {

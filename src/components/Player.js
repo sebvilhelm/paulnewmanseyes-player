@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 
-import { SongList, SongListItem } from './Player.style';
+import { PlayerContainer, SongList, SongListItem } from './Player.style';
 
 class Player extends Component {
   static defaultProps = {
-    songs: []
+    songs: [],
   };
 
   state = {
     playing: false,
-    currentSong: 0
+    hasPlayed: false,
+    currentSong: 0,
   };
 
   constructor(props) {
@@ -32,49 +33,55 @@ class Player extends Component {
   };
 
   togglePlay = () => {
+
     const method = this.state.playing ? 'pause' : 'play';
     this.audio.current[method]();
   };
 
   setPlayState = playing => {
+    if (!this.state.hasPlayed) {
+      this.setState({ hasPlayed: true });
+    }
     this.setState({ playing });
   };
 
+  skipToEnd = () => {
+    this.audio.current.currentTime = this.audio.current.duration - 5;
+  };
+
   render() {
-    const { playing, currentSong} = this.state;
+    const { playing, currentSong } = this.state;
     const { songs } = this.props;
     return (
-      <div>
+      <PlayerContainer>
         <div>
           <img src="/coyote.jpg" alt="A Coyote" />
-          <button onClick={this.togglePlay}>
-            {playing ? '❚❚' : '►'}
-          </button>
-          <button
-            onClick={() => {
-              this.audio.current.currentTime = this.audio.current.duration - 5;
-            }}
-          >
-            Skip to end
-          </button>
+          <button onClick={this.togglePlay}>{playing ? '❚❚' : '►'}</button>
         </div>
 
-        <SongList>
-          {songs.map((song, index) => (
-            <SongListItem
-              key={song.title}
-              role="button"
-              tabIndex="0"
-              aria-label={`Play ${song.title}`}
-              onClick={() => {
-                this.changeCurrentSong(index);
-              }}
-              playing={currentSong === index && playing}
-            >
-              {song.title}
-            </SongListItem>
-          ))}
-        </SongList>
+        <div>
+          <SongList>
+            {songs.map((song, index) => {
+              const songIsSelected = currentSong === index;
+              const songIsPlaying = songIsSelected && playing;
+              return (
+                <SongListItem
+                  key={song.title}
+                  role="button"
+                  tabIndex="0"
+                  aria-label={`Play ${song.title}`}
+                  onClick={() => {
+                    this.changeCurrentSong(index);
+                  }}
+                  playing={songIsPlaying}
+                  selected={this.state.hasPlayed && songIsSelected}
+                >
+                  {song.title}
+                </SongListItem>
+              );
+            })}
+          </SongList>
+        </div>
 
         <audio
           ref={this.audio}
@@ -83,7 +90,7 @@ class Player extends Component {
           onEnded={this.playNextSong}
           src={songs[currentSong].url}
         />
-      </div>
+      </PlayerContainer>
     );
   }
 }

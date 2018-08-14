@@ -21,14 +21,28 @@ export const SongListItem = styled('li')`
   cursor: default;
   padding: 0.5rem 1rem;
   margin: 0.5rem 0;
+  font-weight: 300;
 
   ${props =>
     props.playing &&
     css`
       color: #f17474;
     `}
+  ${props =>
+    props.selected &&
+    css`
+      font-weight:400;
+    `}
 
     &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
+`;
+
+export const PlayerContainer = styled('div')`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 1024px;
+  margin: 0 auto;
 `;

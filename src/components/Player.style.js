@@ -1,4 +1,4 @@
-import styled, { css } from 'react-emotion';
+import styled, { css } from 'react-emotion'
 
 export const SongList = styled('ol')`
   counter-reset: song-counter;
@@ -15,7 +15,7 @@ export const SongList = styled('ol')`
       color: grey;
     }
   }
-`;
+`
 
 export const SongListItem = styled('li')`
   cursor: default;
@@ -36,7 +36,7 @@ export const SongListItem = styled('li')`
     &:hover {
     background-color: rgba(0, 0, 0, 0.04);
   }
-`;
+`
 
 export const PlayerContainer = styled('div')`
   display: grid;
@@ -45,11 +45,7 @@ export const PlayerContainer = styled('div')`
   max-width: 1200px;
   margin: 0 auto;
   justify-content: center;
-
-  @media screen and (max-width: 500px) {
-    grid-template-columns: 1fr;
-  }
-`;
+`
 
 export const ControlsContainer = styled('div')`
   position: relative;
@@ -57,7 +53,7 @@ export const ControlsContainer = styled('div')`
   img {
     width: 100%;
   }
-`;
+`
 
 export const PlayButton = styled('button')`
   position: absolute;
@@ -67,11 +63,11 @@ export const PlayButton = styled('button')`
   border: 0;
   background-color: transparent;
   color: #ffffff;
-`;
+`
 
 export const ProvidersContainer = styled('div')`
   display: flex;
-`;
+`
 
 export const ProviderStyle = css`
   padding: 1rem;
@@ -80,4 +76,10 @@ export const ProviderStyle = css`
   &:hover {
     color: #f17474;
   }
-`;
+`
+
+export const SongStateWrapper = styled('span')`
+  font-size: 0.7rem;
+  margin: 0 0.3rem;
+  vertical-align: middle;
+`

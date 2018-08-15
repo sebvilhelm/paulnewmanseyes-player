@@ -37,7 +37,7 @@ class Player extends Component {
     }
 
     this.setState({ currentSong: index, loading: true }, () => {
-      this.setPlayState(true)
+      this.audio.current.play()
     })
   }
 
@@ -67,7 +67,7 @@ class Player extends Component {
 
   loaded = () => {
     this.setState({ loading: false })
-    if (this.state.playing) {
+    if (this.state.hasPlayed) {
       this.audio.current.play()
     }
   }
@@ -146,7 +146,7 @@ class Player extends Component {
 
         <audio
           ref={this.audio}
-          onCanPlay={this.loaded}
+          onLoadedMetadata={this.loaded}
           onPlay={() => this.setPlayState(true)}
           onPause={() => this.setPlayState(false)}
           onEnded={this.playNextSong}

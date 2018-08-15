@@ -1,11 +1,6 @@
-import React, { Component } from 'react';
-import {
-  FaPause,
-  FaPlay,
-  FaSpotify,
-  FaBandcamp,
-  FaApple
-} from 'react-icons/fa';
+import React, { Component } from 'react'
+import { FaPause, FaPlay, FaSpotify, FaBandcamp, FaApple } from 'react-icons/fa'
+import Spinner from './Spinner'
 
 import {
   PlayerContainer,
@@ -14,58 +9,72 @@ import {
   ControlsContainer,
   PlayButton,
   ProvidersContainer,
-  ProviderStyle
-} from './Player.style';
+  ProviderStyle,
+  SongStateWrapper,
+} from './Player.style'
 
 class Player extends Component {
   static defaultProps = {
-    songs: []
-  };
+    songs: [],
+  }
 
   state = {
     playing: false,
     hasPlayed: false,
-    currentSong: 0
-  };
+    loading: true,
+    currentSong: 0,
+  }
 
   constructor(props) {
-    super(props);
-    this.audio = React.createRef();
+    super(props)
+    this.audio = React.createRef()
   }
 
   changeCurrentSong = index => {
-    this.setState({ currentSong: index }, () => {
-      this.audio.current.play();
-    });
-  };
+    if (index === this.state.currentSong) {
+      this.togglePlay()
+      return
+    }
+
+    this.setState({ currentSong: index, loading: true }, () => {
+      this.setPlayState(true)
+    })
+  }
 
   playNextSong = () => {
     if (this.state.currentSong < this.props.songs.length - 1) {
-      this.changeCurrentSong(this.state.currentSong + 1);
+      this.changeCurrentSong(this.state.currentSong + 1)
     } else {
-      this.setState({ currentSong: 0 });
+      this.setState({ currentSong: 0 })
     }
-  };
+  }
 
   togglePlay = () => {
-    const method = this.state.playing ? 'pause' : 'play';
-    this.audio.current[method]();
-  };
+    const method = this.state.playing ? 'pause' : 'play'
+    this.audio.current[method]()
+  }
 
   setPlayState = playing => {
     if (!this.state.hasPlayed) {
-      this.setState({ hasPlayed: true });
+      this.setState({ hasPlayed: true })
     }
-    this.setState({ playing });
-  };
+    this.setState({ playing })
+  }
 
   skipToEnd = () => {
-    this.audio.current.currentTime = this.audio.current.duration - 5;
-  };
+    this.audio.current.currentTime = this.audio.current.duration - 5
+  }
+
+  loaded = () => {
+    this.setState({ loading: false })
+    if (this.state.playing) {
+      this.audio.current.play()
+    }
+  }
 
   render() {
-    const { playing, currentSong } = this.state;
-    const { songs } = this.props;
+    const { playing, currentSong } = this.state
+    const { songs } = this.props
     return (
       <PlayerContainer>
         <ControlsContainer>
@@ -78,8 +87,8 @@ class Player extends Component {
         <div>
           <SongList>
             {songs.map((song, index) => {
-              const songIsSelected = currentSong === index;
-              const songIsPlaying = songIsSelected && playing;
+              const songIsSelected = currentSong === index
+              const songIsPlaying = songIsSelected && playing
               return (
                 <SongListItem
                   key={song.title}
@@ -87,14 +96,21 @@ class Player extends Component {
                   tabIndex="0"
                   aria-label={`Play ${song.title}`}
                   onClick={() => {
-                    this.changeCurrentSong(index);
+                    this.changeCurrentSong(index)
                   }}
                   playing={songIsPlaying}
                   selected={this.state.hasPlayed && songIsSelected}
                 >
                   {song.title}
+                  <SongStateWrapper>
+                    {(songIsSelected && this.state.loading && <Spinner />) ||
+                      (songIsPlaying && !this.state.loading && <FaPlay />) ||
+                      (this.state.hasPlayed &&
+                        songIsSelected &&
+                        !this.state.loading && <FaPause />)}
+                  </SongStateWrapper>
                 </SongListItem>
-              );
+              )
             })}
           </SongList>
           <ProvidersContainer>
@@ -130,14 +146,15 @@ class Player extends Component {
 
         <audio
           ref={this.audio}
+          onCanPlay={this.loaded}
           onPlay={() => this.setPlayState(true)}
           onPause={() => this.setPlayState(false)}
           onEnded={this.playNextSong}
           src={songs[currentSong].url}
         />
       </PlayerContainer>
-    );
+    )
   }
 }
 
-export default Player;
+export default Player

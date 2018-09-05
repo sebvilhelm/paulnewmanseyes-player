@@ -1,6 +1,7 @@
 {
   "name": "pne-player",
   "version": "1.0.0",
+  "homepage": "https://www.paulnewmanseyes.com",
   "private": true,
   "dependencies": {
     "emotion": "^9.2.6",
@@ -8,11 +9,13 @@
     "react-dom": "^16.4.2",
     "react-emotion": "^9.2.6",
     "react-icons": "^3.0.5",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "serve": "^10.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "now-start": "serve --single ./build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

@@ -28,6 +28,7 @@ function Player({ songs }) {
   const [currentSong, setCurrentSong] = useState(0)
   const [loading, setLoading] = useState(false)
   const [hasPlayed, setHasPlayed] = useState(false)
+
   const audio = useRef()
 
   const changeCurrentSong = index => {
@@ -52,13 +53,15 @@ function Player({ songs }) {
     [playing, loading]
   )
 
-  const playNextSong = () => {
-    if (currentSong < songs.length - 1) {
-      changeCurrentSong(this.state.currentSong + 1)
-    } else {
-      setCurrentSong(0)
-    }
-  }
+  useEffect(
+    () => {
+      const status = playing ? '🎶' : '🤫'
+      if (hasPlayed) {
+        document.title = `${songs[currentSong].title} ${status}`
+      }
+    },
+    [currentSong, playing, hasPlayed]
+  )
 
   return (
     <PlayerContainer>
@@ -105,7 +108,7 @@ function Player({ songs }) {
         ref={audio}
         onLoadedMetadata={() => setLoading(false)}
         onPlay={() => setHasPlayed(true)}
-        onEnded={playNextSong}
+        onEnded={() => changeCurrentSong((currentSong + 1) % songs.length)}
         src={songs[currentSong].url}
       />
     </PlayerContainer>

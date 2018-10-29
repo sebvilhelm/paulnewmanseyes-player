@@ -1,4 +1,5 @@
-import styled, { css } from 'react-emotion'
+import styled from 'react-emotion/macro'
+import { css } from 'emotion/macro'
 
 export const SongList = styled('ol')`
   counter-reset: song-counter;
@@ -63,19 +64,6 @@ export const PlayButton = styled('button')`
   border: 0;
   background-color: transparent;
   color: #ffffff;
-`
-
-export const ProvidersContainer = styled('div')`
-  display: flex;
-`
-
-export const ProviderStyle = css`
-  padding: 1rem;
-  font-size: 1.5rem;
-  color: #444444;
-  &:hover {
-    color: #f17474;
-  }
 `
 
 export const SongStateWrapper = styled('span')`

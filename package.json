@@ -4,12 +4,12 @@
   "homepage": "https://www.paulnewmanseyes.com",
   "private": true,
   "dependencies": {
-    "emotion": "^9.2.8",
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0",
-    "react-emotion": "^9.2.8",
+    "emotion": "^9.2.12",
+    "react": "^16.7.0-alpha.0",
+    "react-dom": "^16.7.0-alpha.0",
+    "react-emotion": "^9.2.12",
     "react-icons": "^3.0.5",
-    "react-scripts": "1.1.5",
+    "react-scripts": "2.0.5",
     "serve": "^10.0.0"
   },
   "scripts": {
@@ -24,5 +24,11 @@
     "eslint-plugin-emotion": "^9.2.6",
     "eslint-plugin-prettier": "^2.6.2",
     "prettier": "^1.14.2"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

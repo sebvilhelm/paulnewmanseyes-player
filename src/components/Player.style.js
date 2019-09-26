@@ -1,5 +1,5 @@
-import styled from 'react-emotion/macro'
-import { css } from 'emotion/macro'
+import styled from '@emotion/styled/macro'
+import { css } from '@emotion/core'
 
 export const SongList = styled('ol')`
   counter-reset: song-counter;

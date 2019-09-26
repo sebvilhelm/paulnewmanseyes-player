@@ -10,13 +10,11 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-icons": "^3.7.0",
-    "react-scripts": "3.1.2",
-    "serve": "^10.0.0"
+    "react-scripts": "3.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "now-start": "serve --single ./build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

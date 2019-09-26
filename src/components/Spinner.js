@@ -1,5 +1,5 @@
-import React from 'react'
-import { css, keyframes } from 'react-emotion'
+import styled from '@emotion/styled/macro'
+import { keyframes } from '@emotion/core'
 import { FaSpinner } from 'react-icons/fa'
 
 const spinning = keyframes`
@@ -11,12 +11,8 @@ const spinning = keyframes`
     }
 `
 
-const spinnerStyle = css`
+const Spinner = styled(FaSpinner)`
   animation: ${spinning} 1s linear infinite;
 `
-
-const Spinner = () => {
-  return <FaSpinner className={spinnerStyle} />
-}
 
 export default Spinner

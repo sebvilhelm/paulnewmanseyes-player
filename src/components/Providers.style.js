@@ -1,11 +1,10 @@
-import styled from 'react-emotion/macro'
-import { css } from 'emotion/macro'
+import styled from '@emotion/styled/macro'
 
 export const ProvidersContainer = styled('div')`
   display: flex;
 `
 
-export const ProviderStyle = css`
+export const Provider = styled.a`
   padding: 1rem;
   font-size: 1.5rem;
   color: #444444;

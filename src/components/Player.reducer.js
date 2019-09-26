@@ -78,7 +78,7 @@ function Player({ songs }) {
         document.title = `${songs[state.currentSong].title} ${status}`
       }
     },
-    [state.currentSong, state.playing, state.hasPlayed]
+    [state.currentSong, state.playing, state.hasPlayed, songs]
   )
 
   return (

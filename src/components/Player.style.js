@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled/macro'
 import { css } from '@emotion/core'
 
@@ -18,7 +19,7 @@ export const SongList = styled('ol')`
   }
 `
 
-export const SongListItem = styled('li')`
+const StyledLi = styled('li')`
   cursor: default;
   padding: 0.5rem 1rem;
   margin: 0.5rem 0;
@@ -38,6 +39,21 @@ export const SongListItem = styled('li')`
     background-color: rgba(0, 0, 0, 0.04);
   }
 `
+
+const StyledButton = styled.button`
+  font: inherit;
+  border: none;
+  color: inherit;
+  background: none;
+`
+
+export function SongListItem({ playing, selected, ...props }) {
+  return (
+    <StyledLi playing={playing} selected={selected}>
+      <StyledButton {...props} />
+    </StyledLi>
+  )
+}
 
 export const PlayerContainer = styled('div')`
   display: grid;

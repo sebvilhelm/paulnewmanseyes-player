@@ -5,12 +5,12 @@ import { ProvidersContainer, Provider } from './Providers.style'
 
 function Providers() {
   return (
-    <ProvidersContainer>
+    <ProvidersContainer data-test-id="providers-container">
       <Provider
         href="https://paulnewmanseyes.bandcamp.com/releases"
         rel="noopener noreferrer"
         target="_blank"
-        title="Hear the album on Bandcamp"
+        title="Listen to the album on Bandcamp"
       >
         <FaBandcamp />
       </Provider>
@@ -18,7 +18,7 @@ function Providers() {
         href="https://open.spotify.com/album/6LfR64fv8r4Uem36K4vtw7?si=oj7eSIMAT8O56N09nA2UNw"
         rel="noopener noreferrer"
         target="_blank"
-        title="Hear the album on Spotify"
+        title="Listen to the album on Spotify"
       >
         <FaSpotify />
       </Provider>
@@ -26,7 +26,7 @@ function Providers() {
         href="https://itunes.apple.com/dk/album/entitlement-ep/1424456482"
         rel="noopener noreferrer"
         target="_blank"
-        title="Hear the album on Apple Music"
+        title="Listen to the album on Apple Music"
       >
         <FaApple />
       </Provider>

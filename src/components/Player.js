@@ -1,16 +1,5 @@
 import React, { Component } from 'react'
-import { FaPause, FaPlay } from 'react-icons/fa'
-import Spinner from './Spinner'
-import Providers from './Providers'
-
-import {
-  PlayerContainer,
-  SongList,
-  SongListItem,
-  ControlsContainer,
-  PlayButton,
-  SongStateWrapper,
-} from './Player.style'
+import PlayerView from './PlayerView'
 
 class Player extends Component {
   static defaultProps = {
@@ -72,49 +61,16 @@ class Player extends Component {
   }
 
   render() {
-    const { playing, currentSong } = this.state
+    const { currentSong } = this.state
     const { songs } = this.props
+
     return (
-      <PlayerContainer>
-        <ControlsContainer>
-          <img src="/coyote.jpg" alt="A Coyote" />
-          <PlayButton onClick={this.togglePlay}>
-            {(playing && <FaPause />) || <FaPlay />}
-          </PlayButton>
-        </ControlsContainer>
-
-        <div>
-          <SongList>
-            {songs.map((song, index) => {
-              const songIsSelected = currentSong === index
-              const songIsPlaying = songIsSelected && playing
-              return (
-                <SongListItem
-                  key={song.title}
-                  role="button"
-                  tabIndex="0"
-                  aria-label={`Play ${song.title}`}
-                  onClick={() => {
-                    this.changeCurrentSong(index)
-                  }}
-                  playing={songIsPlaying}
-                  selected={this.state.hasPlayed && songIsSelected}
-                >
-                  {song.title}
-                  <SongStateWrapper>
-                    {(songIsSelected && this.state.loading && <Spinner />) ||
-                      (songIsPlaying && !this.state.loading && <FaPlay />) ||
-                      (this.state.hasPlayed &&
-                        songIsSelected &&
-                        !this.state.loading && <FaPause />)}
-                  </SongStateWrapper>
-                </SongListItem>
-              )
-            })}
-          </SongList>
-          <Providers />
-        </div>
-
+      <PlayerView
+        {...this.state}
+        songs={songs}
+        onClickButton={this.togglePlay}
+        onSelected={({ index }) => this.changeCurrentSong(index)}
+      >
         <audio
           ref={this.audio}
           onLoadedMetadata={this.loaded}
@@ -123,7 +79,7 @@ class Player extends Component {
           onEnded={this.playNextSong}
           src={songs[currentSong].url}
         />
-      </PlayerContainer>
+      </PlayerView>
     )
   }
 }

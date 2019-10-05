@@ -1,5 +1,6 @@
-import React, { lazy, Suspense, useRef, useEffect } from 'react'
+import React, { Fragment, lazy, Suspense, useRef, useEffect } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
+import VisuallyHidden from '@reach/visually-hidden'
 import Spinner from './Spinner'
 import {
   PlayerContainer,
@@ -80,7 +81,17 @@ function Player({ songs }) {
       <ControlsContainer>
         <img src="/coyote.jpg" alt="A Coyote" />
         <PlayButton onClick={() => dispatch({ type: 'TOGGLE' })}>
-          {(state.playing && <FaPause />) || <FaPlay />}
+          {state.playing ? (
+            <Fragment>
+              <VisuallyHidden>Pause</VisuallyHidden>
+              <FaPause />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <VisuallyHidden>Play</VisuallyHidden>
+              <FaPlay />
+            </Fragment>
+          )}
         </PlayButton>
       </ControlsContainer>
 

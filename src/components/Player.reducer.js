@@ -1,17 +1,5 @@
-import React, { Fragment, lazy, Suspense, useRef, useEffect } from 'react'
-import { FaPause, FaPlay } from 'react-icons/fa'
-import VisuallyHidden from '@reach/visually-hidden'
-import Spinner from './Spinner'
-import {
-  PlayerContainer,
-  SongList,
-  SongListItem,
-  ControlsContainer,
-  PlayButton,
-  SongStateWrapper,
-} from './Player.style'
-
-const Providers = lazy(() => import('./Providers'))
+import React, { useRef, useEffect } from 'react'
+import PlayerView from './PlayerView'
 
 const initialState = {
   playing: false,
@@ -79,67 +67,18 @@ function Player({ songs }) {
   }, [state.currentSong, state.playing, state.hasPlayed, songs])
 
   return (
-    <PlayerContainer>
-      <ControlsContainer>
-        <img src="/coyote.jpg" alt="A Coyote" />
-        <PlayButton
-          onClick={() => dispatch({ type: 'TOGGLE' })}
-          data-test-id="play-toggle"
-        >
-          {state.playing ? (
-            <Fragment>
-              <VisuallyHidden>Pause</VisuallyHidden>
-              <FaPause />
-            </Fragment>
-          ) : (
-            <Fragment>
-              <VisuallyHidden>Play</VisuallyHidden>
-              <FaPlay />
-            </Fragment>
-          )}
-        </PlayButton>
-      </ControlsContainer>
-
-      <div>
-        <SongList>
-          {songs.map((song, index) => {
-            const songIsSelected = state.currentSong === index
-            const songIsPlaying = songIsSelected && state.playing
-            const songIsLoading = songIsSelected && state.loading
-            return (
-              <SongListItem
-                key={song.title}
-                onClick={() => {
-                  if (songIsSelected) {
-                    dispatch({ type: 'TOGGLE' })
-                  } else {
-                    dispatch({ type: 'CHANGE_SONG', index })
-                  }
-                }}
-                playing={songIsPlaying}
-                selected={state.hasPlayed && songIsSelected}
-                aria-busy={songIsLoading}
-              >
-                <VisuallyHidden>
-                  {songIsPlaying ? 'Pause' : 'Play'}
-                </VisuallyHidden>
-                {song.title}
-                <SongStateWrapper>
-                  {(songIsLoading && <Spinner />) ||
-                    (songIsPlaying && !state.loading && <FaPlay />) ||
-                    (state.hasPlayed && songIsSelected && !state.loading && (
-                      <FaPause />
-                    ))}
-                </SongStateWrapper>
-              </SongListItem>
-            )
-          })}
-        </SongList>
-        <Suspense fallback="loading...">
-          <Providers />
-        </Suspense>
-      </div>
-
+    <PlayerView
+      {...state}
+      songs={songs}
+      onClickButton={() => dispatch({ type: 'TOGGLE' })}
+      onSelected={({ songIsSelected, index }) => {
+        if (songIsSelected) {
+          dispatch({ type: 'TOGGLE' })
+        } else {
+          dispatch({ type: 'CHANGE_SONG', index })
+        }
+      }}
+    >
       <audio
         ref={audio}
         onLoadedMetadata={() => {
@@ -157,7 +96,7 @@ function Player({ songs }) {
         }
         src={songs[state.currentSong].url}
       />
-    </PlayerContainer>
+    </PlayerView>
   )
 }
 

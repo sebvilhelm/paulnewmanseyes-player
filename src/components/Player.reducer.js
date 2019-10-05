@@ -60,26 +60,20 @@ function Player({ songs }) {
 
   const audio = useRef()
 
-  useEffect(
-    () => {
-      if (state.playing && !state.loading) {
-        audio.current.play()
-      } else if (!state.playing) {
-        audio.current.pause()
-      }
-    },
-    [state.playing, state.loading]
-  )
+  useEffect(() => {
+    if (state.playing && !state.loading) {
+      audio.current.play()
+    } else if (!state.playing) {
+      audio.current.pause()
+    }
+  }, [state.playing, state.loading])
 
-  useEffect(
-    () => {
-      const status = state.playing ? '🎶' : '🤫'
-      if (state.hasPlayed) {
-        document.title = `${songs[state.currentSong].title} ${status}`
-      }
-    },
-    [state.currentSong, state.playing, state.hasPlayed, songs]
-  )
+  useEffect(() => {
+    const status = state.playing ? '🎶' : '🤫'
+    if (state.hasPlayed) {
+      document.title = `${songs[state.currentSong].title} ${status}`
+    }
+  }, [state.currentSong, state.playing, state.hasPlayed, songs])
 
   return (
     <PlayerContainer>
@@ -115,9 +109,9 @@ function Player({ songs }) {
                 <SongStateWrapper>
                   {(songIsSelected && state.loading && <Spinner />) ||
                     (songIsPlaying && !state.loading && <FaPlay />) ||
-                    (state.hasPlayed &&
-                      songIsSelected &&
-                      !state.loading && <FaPause />)}
+                    (state.hasPlayed && songIsSelected && !state.loading && (
+                      <FaPause />
+                    ))}
                 </SongStateWrapper>
               </SongListItem>
             )

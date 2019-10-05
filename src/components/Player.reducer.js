@@ -32,11 +32,13 @@ function stateReducer(state, action) {
     case 'STOP':
       return {
         ...state,
+        hasPlayed: true,
         playing: false,
       }
     case 'TOGGLE':
       return {
         ...state,
+        hasPlayed: true,
         playing: !state.playing,
       }
     case 'CHANGE_SONG':
@@ -80,7 +82,10 @@ function Player({ songs }) {
     <PlayerContainer>
       <ControlsContainer>
         <img src="/coyote.jpg" alt="A Coyote" />
-        <PlayButton onClick={() => dispatch({ type: 'TOGGLE' })}>
+        <PlayButton
+          onClick={() => dispatch({ type: 'TOGGLE' })}
+          data-test-id="play-toggle"
+        >
           {state.playing ? (
             <Fragment>
               <VisuallyHidden>Pause</VisuallyHidden>
@@ -100,25 +105,27 @@ function Player({ songs }) {
           {songs.map((song, index) => {
             const songIsSelected = state.currentSong === index
             const songIsPlaying = songIsSelected && state.playing
+            const songIsLoading = songIsSelected && state.loading
             return (
               <SongListItem
                 key={song.title}
-                role="button"
-                tabIndex="0"
-                aria-label={`Play ${song.title}`}
                 onClick={() => {
                   if (songIsSelected) {
-                    dispatch({ type: 'PLAY' })
+                    dispatch({ type: 'TOGGLE' })
                   } else {
                     dispatch({ type: 'CHANGE_SONG', index })
                   }
                 }}
                 playing={songIsPlaying}
                 selected={state.hasPlayed && songIsSelected}
+                aria-busy={songIsLoading}
               >
+                <VisuallyHidden>
+                  {songIsPlaying ? 'Pause' : 'Play'}
+                </VisuallyHidden>
                 {song.title}
                 <SongStateWrapper>
-                  {(songIsSelected && state.loading && <Spinner />) ||
+                  {(songIsLoading && <Spinner />) ||
                     (songIsPlaying && !state.loading && <FaPlay />) ||
                     (state.hasPlayed && songIsSelected && !state.loading && (
                       <FaPause />

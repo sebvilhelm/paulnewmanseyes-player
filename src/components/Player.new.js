@@ -1,16 +1,6 @@
-import React, { lazy, Suspense, useRef, useState, useEffect } from 'react'
-import { FaPause, FaPlay } from 'react-icons/fa'
-import Spinner from './Spinner'
-import {
-  PlayerContainer,
-  SongList,
-  SongListItem,
-  ControlsContainer,
-  PlayButton,
-  SongStateWrapper,
-} from './Player.style'
+import React, { useRef, useState, useEffect } from 'react'
 
-const Providers = lazy(() => import('./Providers'))
+import PlayerView from './PlayerView'
 
 function usePlaying() {
   const [playing, setPlaying] = useState(false)
@@ -42,68 +32,31 @@ function Player({ songs }) {
     play()
   }
 
-  useEffect(
-    () => {
-      if (playing && !loading) {
-        audio.current.play()
-      } else if (!playing) {
-        audio.current.pause()
-      }
-    },
-    [playing, loading]
-  )
+  useEffect(() => {
+    if (playing && !loading) {
+      audio.current.play()
+    } else if (!playing) {
+      audio.current.pause()
+    }
+  }, [playing, loading])
 
-  useEffect(
-    () => {
-      const status = playing ? '🎶' : '🤫'
-      if (hasPlayed) {
-        document.title = `${songs[currentSong].title} ${status}`
-      }
-    },
-    [currentSong, playing, hasPlayed]
-  )
+  useEffect(() => {
+    const status = playing ? '🎶' : '🤫'
+    if (hasPlayed) {
+      document.title = `${songs[currentSong].title} ${status}`
+    }
+  }, [currentSong, playing, hasPlayed, songs])
 
   return (
-    <PlayerContainer>
-      <ControlsContainer>
-        <img src="/coyote.jpg" alt="A Coyote" />
-        <PlayButton onClick={togglePlay}>
-          {(playing && <FaPause />) || <FaPlay />}
-        </PlayButton>
-      </ControlsContainer>
-
-      <div>
-        <SongList>
-          {songs.map((song, index) => {
-            const songIsSelected = currentSong === index
-            const songIsPlaying = songIsSelected && playing
-            return (
-              <SongListItem
-                key={song.title}
-                role="button"
-                tabIndex="0"
-                aria-label={`Play ${song.title}`}
-                onClick={() => {
-                  changeCurrentSong(index)
-                }}
-                playing={songIsPlaying}
-                selected={hasPlayed && songIsSelected}
-              >
-                {song.title}
-                <SongStateWrapper>
-                  {(songIsSelected && loading && <Spinner />) ||
-                    (songIsPlaying && !loading && <FaPlay />) ||
-                    (hasPlayed && songIsSelected && !loading && <FaPause />)}
-                </SongStateWrapper>
-              </SongListItem>
-            )
-          })}
-        </SongList>
-        <Suspense fallback="loading...">
-          <Providers />
-        </Suspense>
-      </div>
-
+    <PlayerView
+      playing={playing}
+      loading={loading}
+      currentSong={currentSong}
+      songs={songs}
+      hasPlayed={hasPlayed}
+      onClickButton={togglePlay}
+      onSelected={({ index }) => changeCurrentSong(index)}
+    >
       <audio
         ref={audio}
         onLoadedMetadata={() => setLoading(false)}
@@ -111,7 +64,7 @@ function Player({ songs }) {
         onEnded={() => changeCurrentSong((currentSong + 1) % songs.length)}
         src={songs[currentSong].url}
       />
-    </PlayerContainer>
+    </PlayerView>
   )
 }
 

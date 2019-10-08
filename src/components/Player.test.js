@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import Player from './Player.reducer'
+import Player from './Player.useReducer'
 import songs from '../songs.json'
 
 beforeAll(() => {

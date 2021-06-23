@@ -1,6 +1,6 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
-import Player from "./components/Player.useReducer";
+import Player from "./components/Player";
 import songs from './songs.json'
 
 ReactDOM.render(

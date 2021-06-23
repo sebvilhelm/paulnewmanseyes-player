@@ -1,10 +1,11 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
+import Player from "./components/Player.useReducer";
+import songs from './songs.json'
 
 ReactDOM.render(
   <StrictMode>
-    <App />
+    <Player songs={songs} />
   </StrictMode>,
   document.getElementById("root")
 );

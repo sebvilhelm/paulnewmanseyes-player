@@ -1,7 +1,7 @@
-import React, { Fragment, lazy, Suspense } from 'react'
-import { FaPause, FaPlay } from 'react-icons/fa'
-import VisuallyHidden from '@reach/visually-hidden'
-import Spinner from './Spinner'
+import React, { Fragment, lazy, Suspense } from "react";
+import { FaPause, FaPlay } from "react-icons/fa";
+import VisuallyHidden from "@reach/visually-hidden";
+import Spinner from "./Spinner";
 import {
   PlayerContainer,
   SongList,
@@ -9,9 +9,9 @@ import {
   ControlsContainer,
   PlayButton,
   SongStateWrapper,
-} from './Player.style'
+} from "./Player.style";
 
-const Providers = lazy(() => import('./Providers'))
+const Providers = lazy(() => import("./Providers"));
 
 export default function PlayerView({
   children,
@@ -45,9 +45,9 @@ export default function PlayerView({
       <div>
         <SongList>
           {songs.map((song, index) => {
-            const songIsSelected = currentSong === index
-            const songIsPlaying = songIsSelected && playing
-            const songIsLoading = songIsSelected && loading
+            const songIsSelected = currentSong === index;
+            const songIsPlaying = songIsSelected && playing;
+            const songIsLoading = songIsSelected && loading;
             return (
               <SongListItem
                 key={song.title}
@@ -57,7 +57,7 @@ export default function PlayerView({
                 aria-busy={songIsLoading}
               >
                 <VisuallyHidden>
-                  {songIsPlaying ? 'Pause' : 'Play'}
+                  {songIsPlaying ? "Pause" : "Play"}
                 </VisuallyHidden>
                 {song.title}
                 <SongStateWrapper>
@@ -66,7 +66,7 @@ export default function PlayerView({
                     (hasPlayed && songIsSelected && !loading && <FaPause />)}
                 </SongStateWrapper>
               </SongListItem>
-            )
+            );
           })}
         </SongList>
         <Suspense fallback="loading...">
@@ -75,5 +75,5 @@ export default function PlayerView({
       </div>
       {children}
     </PlayerContainer>
-  )
+  );
 }

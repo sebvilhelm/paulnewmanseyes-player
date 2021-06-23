@@ -1,4 +1,4 @@
-import React, { Fragment, lazy, Suspense } from "react";
+import React, { Fragment, lazy, ReactNode, Suspense } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import VisuallyHidden from "@reach/visually-hidden";
 import Spinner from "./Spinner";
@@ -13,6 +13,23 @@ import {
 
 const Providers = lazy(() => import("./Providers"));
 
+interface Song {
+  title: string;
+  url: string;
+}
+
+interface Props {
+  children: ReactNode;
+  currentSong: number;
+  error: boolean;
+  hasPlayed: boolean;
+  loading: boolean;
+  onClickButton: () => void;
+  onSelected: (options: { index: number; songIsSelected?: boolean }) => void;
+  playing: boolean;
+  songs: Array<Song>;
+}
+
 export default function PlayerView({
   children,
   currentSong,
@@ -23,7 +40,7 @@ export default function PlayerView({
   onSelected,
   playing,
   songs,
-}) {
+}: Props): JSX.Element {
   return (
     <PlayerContainer>
       <ControlsContainer>

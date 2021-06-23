@@ -1,12 +1,16 @@
 import React, { useRef, useEffect, useReducer } from "react";
 import PlayerView from "./PlayerView";
 
-const initialState = {
+interface PlayerState {
+  currentSong: number;
+  hasPlayed: boolean;
+  status: "loading" | "error" | "playing" | "paused"
+}
+
+const initialState: PlayerState = {
   currentSong: 0,
-  error: false,
   hasPlayed: false,
-  loading: true,
-  playing: false,
+  status: "loading"
 };
 
 type Action =
@@ -17,44 +21,42 @@ type Action =
   | { type: "LOADED" }
   | { type: "ERROR" };
 
-function stateReducer(state: typeof initialState, action: Action) {
+function stateReducer(state: PlayerState, action: Action): PlayerState {
   switch (action.type) {
     case "PLAY":
       return {
         ...state,
-        loading: false,
         hasPlayed: true,
-        playing: true,
+        status: "playing"
       };
     case "STOP":
       return {
         ...state,
         hasPlayed: true,
-        playing: false,
+        status: "paused"
       };
     case "TOGGLE":
       return {
         ...state,
         hasPlayed: true,
-        playing: !state.playing,
+        status: state.status === "playing" ? "paused" : "playing"
       };
     case "CHANGE_SONG":
       return {
         ...state,
         hasPlayed: true,
-        loading: true,
+        status: "loading", 
         currentSong: action.index,
       };
     case "LOADED":
       return {
         ...state,
-        loading: false,
+        status: "paused"
       };
     case "ERROR":
       return {
         ...state,
-        loading: false,
-        error: true,
+        status: "error"
       };
   }
 }
@@ -74,23 +76,27 @@ function Player({ songs }: PlayerProps) {
   const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    if (state.playing && !state.loading) {
+    if (state.status === "playing") {
       audio.current?.play();
-    } else if (!state.playing) {
+    } else if (state.status === "paused") {
       audio.current?.pause();
     }
-  }, [state.playing, state.loading]);
+  }, [state.status]);
 
   useEffect(() => {
-    const status = state.playing ? "🎶" : "🤫";
+    const status = state.status === "playing" ? "🎶" : state.status === "paused" ? "🤫" : "";
     if (state.hasPlayed) {
       document.title = `${songs[state.currentSong].title} ${status}`;
     }
-  }, [state.currentSong, state.playing, state.hasPlayed, songs]);
+  }, [state.currentSong, state.status, state.hasPlayed, songs]);
 
   return (
     <PlayerView
-      {...state}
+      currentSong={state.currentSong}
+      hasPlayed={state.hasPlayed}
+      error={state.status === "error"}
+      playing={state.status === "playing"}
+      loading={state.status === "loading"}
       songs={songs}
       onClickButton={() => dispatch({ type: "TOGGLE" })}
       onSelected={({ songIsSelected, index }) => {

@@ -1,4 +1,6 @@
 {
-  "extends": ["react-app", "plugin:prettier/recommended"],
-  "plugins": ["@emotion"]
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "react-app", "plugin:prettier/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint","@emotion"],
+  "root": true
 }

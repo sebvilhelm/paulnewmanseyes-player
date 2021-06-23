@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from '@emotion/styled/macro'
-import { css } from '@emotion/core'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 
 export const SongList = styled('ol')`
   counter-reset: song-counter;

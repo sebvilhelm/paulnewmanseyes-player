@@ -1,5 +1,5 @@
-import styled from '@emotion/styled/macro'
-import { keyframes } from '@emotion/core'
+import styled from '@emotion/styled'
+import { keyframes } from '@emotion/react'
 import { FaSpinner } from 'react-icons/fa'
 
 const spinning = keyframes`

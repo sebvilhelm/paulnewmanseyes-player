@@ -15,13 +15,14 @@ const Providers = lazy(() => import("./Providers"));
 
 export default function PlayerView({
   children,
-  playing,
-  loading,
   currentSong,
-  songs,
+  error,
   hasPlayed,
+  loading,
   onClickButton,
   onSelected,
+  playing,
+  songs,
 }) {
   return (
     <PlayerContainer>

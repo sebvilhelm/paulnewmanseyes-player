@@ -2,10 +2,11 @@ import React, { useRef, useEffect } from "react";
 import PlayerView from "./PlayerView";
 
 const initialState = {
-  playing: false,
   currentSong: 0,
-  loading: true,
+  error: false,
   hasPlayed: false,
+  loading: true,
+  playing: false,
 };
 
 function stateReducer(state, action) {
@@ -40,6 +41,12 @@ function stateReducer(state, action) {
       return {
         ...state,
         loading: false,
+      };
+    case "ERROR":
+      return {
+        ...state,
+        loading: false,
+        error: true,
       };
     default:
       return state;
@@ -94,6 +101,9 @@ function Player({ songs }) {
             index: (state.currentSong + 1) % songs.length,
           })
         }
+        onError={() => {
+          dispatch({ type: "ERROR" });
+        }}
         src={songs[state.currentSong].url}
       />
     </PlayerView>

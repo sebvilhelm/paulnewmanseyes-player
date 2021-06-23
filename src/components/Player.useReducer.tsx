@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useReducer } from "react";
 import PlayerView from "./PlayerView";
 
 const initialState = {
@@ -9,7 +9,15 @@ const initialState = {
   playing: false,
 };
 
-function stateReducer(state, action) {
+type Action =
+  | { type: "PLAY" }
+  | { type: "STOP" }
+  | { type: "TOGGLE" }
+  | { type: "CHANGE_SONG"; index: number }
+  | { type: "LOADED" }
+  | { type: "ERROR" };
+
+function stateReducer(state: typeof initialState, action: Action) {
   switch (action.type) {
     case "PLAY":
       return {
@@ -48,21 +56,28 @@ function stateReducer(state, action) {
         loading: false,
         error: true,
       };
-    default:
-      return state;
   }
 }
 
-function Player({ songs }) {
-  const [state, dispatch] = React.useReducer(stateReducer, initialState);
+interface Song {
+  title: string;
+  url: string;
+}
 
-  const audio = useRef();
+interface PlayerProps {
+  songs: Array<Song>
+}
+
+function Player({ songs }: PlayerProps) {
+  const [state, dispatch] = useReducer(stateReducer, initialState);
+
+  const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     if (state.playing && !state.loading) {
-      audio.current.play();
+      audio.current?.play();
     } else if (!state.playing) {
-      audio.current.pause();
+      audio.current?.pause();
     }
   }, [state.playing, state.loading]);
 
@@ -109,9 +124,5 @@ function Player({ songs }) {
     </PlayerView>
   );
 }
-
-Player.defaultProps = {
-  songs: [],
-};
 
 export default Player;

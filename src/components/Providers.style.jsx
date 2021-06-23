@@ -1,8 +1,8 @@
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
-export const ProvidersContainer = styled('div')`
+export const ProvidersContainer = styled("div")`
   display: flex;
-`
+`;
 
 export const Provider = styled.a`
   padding: 1rem;
@@ -11,4 +11,4 @@ export const Provider = styled.a`
   &:hover {
     color: #f17474;
   }
-`
+`;

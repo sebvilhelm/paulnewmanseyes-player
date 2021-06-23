@@ -1,7 +1,7 @@
-import React from 'react'
-import { FaSpotify, FaBandcamp, FaApple } from 'react-icons/fa'
+import React from "react";
+import { FaSpotify, FaBandcamp, FaApple } from "react-icons/fa";
 
-import { ProvidersContainer, Provider } from './Providers.style'
+import { ProvidersContainer, Provider } from "./Providers.style";
 
 function Providers() {
   return (
@@ -31,7 +31,7 @@ function Providers() {
         <FaApple />
       </Provider>
     </ProvidersContainer>
-  )
+  );
 }
 
-export default Providers
+export default Providers;

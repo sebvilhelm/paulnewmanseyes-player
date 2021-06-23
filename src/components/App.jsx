@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import songs from '../songs.json'
+import React, { Component } from "react";
+import songs from "../songs.json";
 
-import Player from './Player.useReducer'
+import Player from "./Player.useReducer";
 
 export default class App extends Component {
   render() {
@@ -9,6 +9,6 @@ export default class App extends Component {
       <React.Fragment>
         <Player songs={songs} />
       </React.Fragment>
-    )
+    );
   }
 }

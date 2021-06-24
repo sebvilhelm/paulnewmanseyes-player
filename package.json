@@ -4,11 +4,11 @@
   "homepage": "https://www.paulnewmanseyes.com",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.4.0",
-    "@emotion/styled": "^11.3.0",
     "@reach/utils": "^0.15.0",
     "@reach/visually-hidden": "^0.15.0",
-    "emotion": "^11.0.0",
+    "@vanilla-extract/css": "^1.1.0",
+    "@vanilla-extract/vite-plugin": "^1.0.0",
+    "classnames": "^2.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0"

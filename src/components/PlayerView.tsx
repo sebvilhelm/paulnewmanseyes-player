@@ -1,15 +1,9 @@
 import React, { Fragment, lazy, ReactNode, Suspense } from "react";
-import { FaPause, FaPlay } from "react-icons/fa";
 import VisuallyHidden from "@reach/visually-hidden";
+import classNames from "classnames";
+import { FaPause, FaPlay } from "react-icons/fa";
 import Spinner from "./Spinner";
-import {
-  PlayerContainer,
-  SongList,
-  SongListItem,
-  ControlsContainer,
-  PlayButton,
-  SongStateWrapper,
-} from "./Player.style";
+import * as styles from "./PlayerView.css";
 
 const Providers = lazy(() => import("./Providers"));
 
@@ -42,10 +36,14 @@ export default function PlayerView({
   songs,
 }: Props): JSX.Element {
   return (
-    <PlayerContainer>
-      <ControlsContainer>
-        <img src="/coyote.jpg" alt="A Coyote" />
-        <PlayButton onClick={onClickButton} data-test-id="play-toggle">
+    <div className={styles.container}>
+      <div className={styles.controls}>
+        <img className={styles.img} src="/coyote.jpg" alt="A Coyote" />
+        <button
+          className={styles.playButton}
+          onClick={onClickButton}
+          data-test-id="play-toggle"
+        >
           {playing ? (
             <Fragment>
               <VisuallyHidden>Pause</VisuallyHidden>
@@ -57,41 +55,70 @@ export default function PlayerView({
               <FaPlay />
             </Fragment>
           )}
-        </PlayButton>
-      </ControlsContainer>
+        </button>
+      </div>
 
       <div>
-        <SongList>
+        <ol className={styles.songList}>
           {songs.map((song, index) => {
-            const songIsSelected = currentSong === index;
-            const songIsPlaying = songIsSelected && playing;
-            const songIsLoading = songIsSelected && loading;
+            const isSelected = currentSong === index;
+            const isPlaying = isSelected && playing;
+            const isLoading = isSelected && loading;
             return (
               <SongListItem
                 key={song.title}
-                onClick={() => onSelected({ songIsSelected, index })}
-                playing={songIsPlaying}
-                selected={hasPlayed && songIsSelected}
-                aria-busy={songIsLoading}
+                isLoading={isLoading}
+                isPlaying={isPlaying}
+                isSelected={isSelected}
+                onSelected={() =>
+                  onSelected({ songIsSelected: isSelected, index })
+                }
               >
-                <VisuallyHidden>
-                  {songIsPlaying ? "Pause" : "Play"}
-                </VisuallyHidden>
+                <VisuallyHidden>{isPlaying ? "Pause" : "Play"} </VisuallyHidden>
                 {song.title}
-                <SongStateWrapper>
-                  {(songIsLoading && <Spinner />) ||
-                    (songIsPlaying && !loading && <FaPlay />) ||
-                    (hasPlayed && songIsSelected && !loading && <FaPause />)}
-                </SongStateWrapper>
+                <span className={styles.songStateIcon}>
+                  {(isLoading && <Spinner />) ||
+                    (isPlaying && !isLoading && <FaPlay />) ||
+                    (hasPlayed && isSelected && !isLoading && <FaPause />)}
+                </span>
               </SongListItem>
             );
           })}
-        </SongList>
+        </ol>
         <Suspense fallback="loading...">
           <Providers />
         </Suspense>
       </div>
       {children}
-    </PlayerContainer>
+    </div>
+  );
+}
+
+interface SongListItemProps {
+  children: ReactNode;
+  isLoading: boolean;
+  isPlaying: boolean;
+  isSelected: boolean;
+  onSelected: () => void;
+}
+
+function SongListItem({
+  children,
+  isLoading,
+  isPlaying,
+  isSelected,
+  onSelected,
+}: SongListItemProps): JSX.Element {
+  return (
+    <li
+      className={classNames(styles.songListItem, {
+        [styles.songListItemPlaying]: isPlaying,
+        [styles.songListItemSelected]: isSelected,
+      })}
+      onClick={() => onSelected()}
+      aria-busy={isLoading}
+    >
+      <button className={styles.neutralButton}>{children}</button>
+    </li>
   );
 }

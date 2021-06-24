@@ -1,18 +1,11 @@
-import React, {
-  useRef,
-  useEffect,
-  ReactNode,
-  lazy,
-  Fragment,
-  Suspense,
-} from "react";
+import React, { useRef, useEffect, ReactNode, Fragment } from "react";
 import { VisuallyHidden } from "@reach/visually-hidden";
 import { FaPause, FaPlay } from "react-icons/fa";
 import Spinner from "./Spinner";
 import classNames from "classnames";
+import Providers from "./Providers";
 import { usePlayer } from "../hooks/player";
 import * as styles from "./Player.css";
-const Providers = lazy(() => import("./Providers"));
 
 interface Song {
   title: string;
@@ -111,9 +104,7 @@ function Player({ songs }: PlayerProps): JSX.Element {
             );
           })}
         </ol>
-        <Suspense fallback="loading...">
-          <Providers />
-        </Suspense>
+        <Providers />
       </div>
       <audio
         ref={audio}

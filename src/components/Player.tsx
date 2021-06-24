@@ -1,63 +1,6 @@
-import React, { useRef, useEffect, useReducer } from "react";
+import React, { useRef, useEffect } from "react";
 import PlayerView from "./PlayerView";
-
-const initialState = {
-  currentSong: 0,
-  error: false,
-  hasPlayed: false,
-  loading: true,
-  playing: false,
-};
-
-type Action =
-  | { type: "PLAY" }
-  | { type: "STOP" }
-  | { type: "TOGGLE" }
-  | { type: "CHANGE_SONG"; index: number }
-  | { type: "LOADED" }
-  | { type: "ERROR" };
-
-function stateReducer(state: typeof initialState, action: Action) {
-  switch (action.type) {
-    case "PLAY":
-      return {
-        ...state,
-        loading: false,
-        hasPlayed: true,
-        playing: true,
-      };
-    case "STOP":
-      return {
-        ...state,
-        hasPlayed: true,
-        playing: false,
-      };
-    case "TOGGLE":
-      return {
-        ...state,
-        hasPlayed: true,
-        playing: !state.playing,
-      };
-    case "CHANGE_SONG":
-      return {
-        ...state,
-        hasPlayed: true,
-        loading: true,
-        currentSong: action.index,
-      };
-    case "LOADED":
-      return {
-        ...state,
-        loading: false,
-      };
-    case "ERROR":
-      return {
-        ...state,
-        loading: false,
-        error: true,
-      };
-  }
-}
+import { usePlayer } from "../hooks/player";
 
 interface Song {
   title: string;
@@ -65,11 +8,11 @@ interface Song {
 }
 
 interface PlayerProps {
-  songs: Array<Song>
+  songs: Array<Song>;
 }
 
-function Player({ songs }: PlayerProps) {
-  const [state, dispatch] = useReducer(stateReducer, initialState);
+function Player({ songs }: PlayerProps): JSX.Element {
+  const [state, dispatch] = usePlayer();
 
   const audio = useRef<HTMLAudioElement>(null);
 

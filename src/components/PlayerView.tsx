@@ -19,7 +19,7 @@ interface Props {
   hasPlayed: boolean;
   loading: boolean;
   onClickButton: () => void;
-  onSelected: (options: { index: number; songIsSelected?: boolean }) => void;
+  onSelected: (options: { index: number; songIsSelected: boolean }) => void;
   playing: boolean;
   songs: Array<Song>;
 }

@@ -31,18 +31,30 @@ function Player({ songs }: PlayerProps): JSX.Element {
     }
   }, [state.currentSong, state.playing, state.hasPlayed, songs]);
 
+  const onSelected = ({
+    songIsSelected,
+    index,
+  }: {
+    songIsSelected: boolean;
+    index: number;
+  }): void => {
+    if (songIsSelected) {
+      dispatch({ type: "TOGGLE" });
+    } else {
+      dispatch({ type: "CHANGE_SONG", index });
+    }
+  };
+
+  const onClickButton = (): void => {
+    dispatch({ type: "TOGGLE" });
+  };
+
   return (
     <PlayerView
       {...state}
       songs={songs}
-      onClickButton={() => dispatch({ type: "TOGGLE" })}
-      onSelected={({ songIsSelected, index }) => {
-        if (songIsSelected) {
-          dispatch({ type: "TOGGLE" });
-        } else {
-          dispatch({ type: "CHANGE_SONG", index });
-        }
-      }}
+      onClickButton={onClickButton}
+      onSelected={onSelected}
     >
       <audio
         ref={audio}

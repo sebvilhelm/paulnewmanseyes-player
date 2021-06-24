@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import Player from "./Player.useReducer";
-import songs from "../songs.json";
+import Player from "../../src/components/Player";
+import songs from "../../src/songs.json";
 
 beforeAll(() => {
   window.HTMLMediaElement.prototype.load = jest.fn();

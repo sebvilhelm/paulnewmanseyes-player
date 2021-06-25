@@ -24,7 +24,7 @@ function Player({ songs }: PlayerProps): JSX.Element {
   useEffect(() => {
     if (playing && !loading) {
       audio.current?.play();
-    } else if (!playing) {
+    } else if (!playing && !loading) {
       audio.current?.pause();
     }
   }, [playing, loading]);
@@ -61,7 +61,7 @@ function Player({ songs }: PlayerProps): JSX.Element {
         <button
           className={styles.playButton}
           onClick={onClickButton}
-          data-test-id="play-toggle"
+          data-testid="play-toggle"
         >
           {playing ? (
             <Fragment>

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import Player from "../../src/components/Player";
 import songs from "../../src/songs.json";
 
@@ -11,31 +11,31 @@ beforeAll(() => {
 });
 
 test("it renders a list of songs", async () => {
-  const { getByText, getByAltText, findByTestId, getByTitle } = render(
-    <Player songs={songs} />
-  );
+  render(<Player songs={songs} />);
 
-  expect(getByAltText("A Coyote")).toBeTruthy();
+  expect(screen.getByAltText("A Coyote")).toBeTruthy();
 
   for (const song of songs) {
-    expect(getByText(song.title)).toBeTruthy();
+    expect(screen.getByText(song.title)).toBeTruthy();
   }
+});
 
-  expect(await findByTestId("providers-container")).toBeTruthy();
-  expect(getByTitle(/Listen to the album on Bandcamp/i)).toBeTruthy();
-  expect(getByTitle(/Listen to the album on Spotify/i)).toBeTruthy();
-  expect(getByTitle(/Listen to the album on Apple Music/i)).toBeTruthy();
+test("it renders a list of links", async () => {
+  render(<Player songs={songs} />);
+
+  expect(await screen.findByTestId("providers-container")).toBeTruthy();
+  expect(screen.getByTitle("Listen to the album on Bandcamp")).toBeTruthy();
+  expect(screen.getByTitle("Listen to the album on Spotify")).toBeTruthy();
+  expect(screen.getByTitle("Listen to the album on Apple Music")).toBeTruthy();
 });
 
 test("it toggles play/pause with the button", () => {
-  const { getByTestId } = render(<Player songs={songs} />);
+  render(<Player songs={songs} />);
 
-  const playToggle = getByTestId("play-toggle");
+  const playToggle = screen.getByTestId("play-toggle");
 
-  expect(playToggle).toHaveTextContent(/play/i);
+  expect(playToggle).toHaveTextContent("Play");
   fireEvent.click(playToggle);
 
-  expect(playToggle).toHaveTextContent(/pause/i);
-
-  // TODO: Check for `audio.play()`
+  expect(playToggle).toHaveTextContent("Pause");
 });

@@ -4,7 +4,7 @@ import * as styles from "./Providers.css";
 
 function Providers() {
   return (
-    <div className={styles.container} data-test-id="providers-container">
+    <div className={styles.container} data-testid="providers-container">
       <a
         className={styles.provider}
         href="https://paulnewmanseyes.bandcamp.com/releases"
